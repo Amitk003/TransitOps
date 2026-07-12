@@ -1,4 +1,4 @@
-CREATE TABLE fuel_logs (
+CREATE TABLE IF NOT EXISTS fuel_logs (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     vehicle_id UUID NOT NULL,
     fuel_date DATE NOT NULL,

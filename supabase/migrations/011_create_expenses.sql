@@ -1,4 +1,4 @@
-CREATE TABLE expenses (
+CREATE TABLE IF NOT EXISTS expenses (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     vehicle_id UUID NOT NULL,
     expense_type expense_type NOT NULL,
@@ -10,10 +10,14 @@ CREATE TABLE expenses (
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
-ALTER TABLE expenses
-ADD CONSTRAINT fk_expense_vehicle
-FOREIGN KEY (vehicle_id)
-REFERENCES vehicles(id);
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM information_schema.table_constraints WHERE constraint_name = 'fk_expense_vehicle' AND table_name = 'expenses') THEN
+    ALTER TABLE expenses ADD CONSTRAINT fk_expense_vehicle FOREIGN KEY (vehicle_id) REFERENCES vehicles(id);
+  END IF;
+END $$;
 
-CREATE INDEX idx_expense_vehicle
-ON expenses(vehicle_id);
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_indexes WHERE indexname = 'idx_expense_vehicle' AND tablename = 'expenses') THEN
+    CREATE INDEX idx_expense_vehicle ON expenses(vehicle_id);
+  END IF;
+END $$;

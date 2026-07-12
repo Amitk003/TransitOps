@@ -1,4 +1,4 @@
-CREATE TABLE trips (
+CREATE TABLE IF NOT EXISTS trips (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     vehicle_id UUID NOT NULL,
     driver_id UUID NOT NULL,

@@ -1,4 +1,4 @@
-CREATE TABLE vehicles (
+CREATE TABLE IF NOT EXISTS vehicles (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     registration_number VARCHAR(20) NOT NULL UNIQUE,
     vehicle_name VARCHAR(100) NOT NULL,

@@ -36,20 +36,20 @@ export function Sidebar() {
   const role = useRole();
 
   const visibleItems = allNavItems.filter((item) => {
-    if (item.href === "/") return true; // dashboard is for everyone
+    if (item.href === "/") return true;
     return canAccessRoute(role, item.href);
   });
 
   return (
-    <aside className="hidden w-64 shrink-0 border-r border-border bg-card md:flex md:flex-col">
-      <div className="flex h-16 items-center gap-2 border-b border-border px-6">
-        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-accent text-accent-foreground font-bold">
+    <aside className="hidden w-64 shrink-0 border-r border-border bg-[#0B1220] md:flex md:flex-col">
+      <div className="flex h-[70px] items-center gap-3 border-b border-border px-6">
+        <div className="flex h-8 w-8 items-center justify-center rounded-md bg-accent text-lg font-bold text-accent-foreground">
           T
         </div>
-        <span className="font-semibold tracking-tight">TransitOps</span>
+        <span className="text-base font-bold tracking-tight text-white">TransitOps</span>
       </div>
 
-      <nav className="flex-1 space-y-1 p-3">
+      <nav className="flex-1 space-y-1 px-3 py-4">
         {visibleItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
           return (
@@ -57,10 +57,10 @@ export function Sidebar() {
               key={href}
               href={href}
               className={cn(
-                "flex items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors",
+                "flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-colors",
                 active
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  ? "bg-white text-[#0B1220]"
+                  : "text-[#94A3B8] hover:bg-[#111827] hover:text-white"
               )}
             >
               <Icon className="h-4 w-4" />

@@ -70,8 +70,8 @@ export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-6">
       <div>
-        <h1 className="text-2xl font-semibold tracking-tight">Fleet Dashboard</h1>
-        <p className="text-sm text-muted-foreground">
+        <h1 className="text-4xl font-bold tracking-tight text-white">Fleet Dashboard</h1>
+        <p className="mt-1 text-sm text-[#94A3B8]">
           Overview of fleet operations and key metrics.
         </p>
       </div>
@@ -104,8 +104,8 @@ export default function DashboardPage() {
       </div>
 
       <Card>
-        <CardHeader>
-          <CardTitle>Recent Vehicles</CardTitle>
+        <CardHeader className="flex-row items-center justify-between">
+          <h2 className="text-base font-bold text-white">Recent Vehicles</h2>
         </CardHeader>
         <Table>
           <TableHeader>

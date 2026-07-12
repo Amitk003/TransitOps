@@ -1,4 +1,4 @@
-CREATE TABLE drivers (
+CREATE TABLE IF NOT EXISTS drivers (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     full_name VARCHAR(100) NOT NULL,
     license_number VARCHAR(50) NOT NULL UNIQUE,
