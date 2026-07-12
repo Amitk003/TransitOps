@@ -26,6 +26,8 @@ export interface Vehicle {
   odometer: number;
   acquisition_cost: number;
   status: VehicleStatus;
+  current_latitude?: number;
+  current_longitude?: number;
   created_at: string;
   updated_at: string;
 }
