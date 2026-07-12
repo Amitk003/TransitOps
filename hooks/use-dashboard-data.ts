@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-import { getDashboardKpis } from "@/services/dashboard.service";
-import { getFleetUtilizationByType } from "@/services/vehicles.service";
-import { getExpenseBreakdown } from "@/services/expenses.service";
-import { getMaintenanceCostByMonth } from "@/services/maintenance.service";
-import { getTripStatsByDay } from "@/services/trips.service";
+import { getDashboardKpis } from "@/lib/services/dashboard.service";
+import { getFleetUtilizationByType } from "@/lib/services/vehicle.service";
+import { getExpenseBreakdown } from "@/lib/services/expenses.service";
+import { getMaintenanceCostByMonth } from "@/lib/services/maintenance.service";
+import { getTripStatsByDay } from "@/lib/services/trip.service";
 import type { DashboardKpis } from "@/types";
 
 interface DashboardData {

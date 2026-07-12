@@ -9,6 +9,7 @@ Smart transport operations platform with vehicle, driver, trip, maintenance, fue
 - **Supabase** Auth + PostgreSQL
 - **@supabase/ssr** for server/browser clients
 - **next-themes** for dark mode
+- **Recharts** for dashboard charts
 
 ## Project Structure
 
@@ -19,11 +20,13 @@ app/
 components/
   ui/               # Button, Card, Table, Input, Dialog, Badge
   layout/           # Sidebar, Navbar, AppShell, RouteGuard
+  dashboard/        # KPI cards, charts (Phase 6)
 lib/
   supabase/         # Browser + server Supabase clients
   auth/             # AuthContext, roles/permissions
-  services/         # Vehicle, Driver, Trip service layers
+  services/         # All data-access services
   utils.ts          # cn(), formatDate(), formatCurrency()
+hooks/              # use-dashboard-data (Phase 6)
 types/              # Domain types (snake_case matching DB)
 supabase/
   migrations/       # 001-014: schema, enums, tables, RLS, grants
@@ -65,6 +68,9 @@ Vehicle and Driver management with create/edit/list/delete, search/filter/pagina
 ### Phase 5 — Trips
 Trip management with create/list/detail pages, status workflow (draft/ dispatched/ completed/ cancelled), vehicle/driver validation, action buttons.
 
+### Phase 6 — Dashboard & Analytics
+Live dashboard with 7 KPI cards and 4 charts (fleet utilization, expense breakdown, maintenance cost, trip stats). Realtime updates via Supabase subscriptions. All data fetched live from the database.
+
 ### UI Theme
 Dark navy enterprise theme (#0B1220 bg, #111827 cards, #263042 borders, #94A3B8 secondary text, white headings). Sidebar with yellow accent logo, role-filtered navigation, active state (white bg + black text).
 
@@ -76,6 +82,12 @@ All migrations are in `supabase/migrations/` and are idempotent. Apply via:
 supabase link --project-ref <your-ref>
 supabase db push
 ```
+
+## Supabase Realtime (for live dashboard)
+
+1. Go to **Supabase Dashboard → Database → Replication**
+2. Enable replication for: `vehicles`, `drivers`, `trips`, `maintenance_logs`, `fuel_logs`, `expenses`
+3. Without this, the dashboard still loads fine but won't auto-refresh
 
 ## Key Conventions
 

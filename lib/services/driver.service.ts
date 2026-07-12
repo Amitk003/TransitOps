@@ -115,3 +115,13 @@ export async function deleteDriver(id: string): Promise<void> {
   const { error } = await supabase.from("drivers").delete().eq("id", id);
   if (error) throw error;
 }
+
+export async function getActiveDriversCount(): Promise<number> {
+  const supabase = createClient();
+  const { count, error } = await supabase
+    .from("drivers")
+    .select("*", { count: "exact", head: true })
+    .in("status", ["available", "on_trip"]);
+  if (error) throw error;
+  return count ?? 0;
+}

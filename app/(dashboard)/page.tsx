@@ -9,22 +9,15 @@ import { TripStatsChart } from "@/components/dashboard/trip-stats-chart";
 import { useDashboardData } from "@/hooks/use-dashboard-data";
 
 export default function DashboardPage() {
-  const {
-    kpis,
-    utilizationByType,
-    expenseBreakdown,
-    maintenanceCostByMonth,
-    tripStatsByDay,
-    loading,
-    error,
-  } = useDashboardData();
+  const { kpis, utilizationByType, expenseBreakdown, maintenanceCostByMonth, tripStatsByDay, loading, error } =
+    useDashboardData();
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between gap-4">
+      <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Fleet Dashboard</h1>
-          <p className="text-sm text-muted-foreground">Live operational overview</p>
+          <h1 className="text-4xl font-bold tracking-tight text-white">Fleet Dashboard</h1>
+          <p className="mt-1 text-sm text-[#94A3B8]">Live operational overview</p>
         </div>
         <Badge variant={error ? "destructive" : "success"}>{error ? "Connection issue" : "Live"}</Badge>
       </div>
