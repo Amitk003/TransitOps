@@ -1,16 +1,38 @@
 "use client";
 
-import { Bell } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Bell, LogOut } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/lib/auth/auth-context";
 
-// Note: swap the placeholder user/role once Phase 2 auth context lands.
+const roleLabels: Record<string, string> = {
+  fleet_manager: "Fleet Manager",
+  driver: "Driver",
+  safety_officer: "Safety Officer",
+  financial_analyst: "Financial Analyst",
+};
+
 export function Navbar() {
+  const { user, signOut } = useAuth();
+  const router = useRouter();
+
+  async function handleSignOut() {
+    await signOut();
+    router.push("/login");
+  }
+
+  const displayName = user?.full_name || "User";
+  const displayRole = user?.role ? roleLabels[user.role] || user.role : "";
+
   return (
     <header className="flex h-16 items-center justify-between border-b border-border bg-background px-6">
       <div>
         <p className="text-sm text-muted-foreground">Welcome back</p>
-        <p className="text-sm font-medium">Fleet Manager</p>
+        <p className="text-sm font-medium">{displayName}</p>
+        {displayRole && (
+          <p className="text-xs text-muted-foreground">{displayRole}</p>
+        )}
       </div>
 
       <div className="flex items-center gap-2">
@@ -18,6 +40,9 @@ export function Navbar() {
           <Bell className="h-4 w-4" />
         </Button>
         <ThemeToggle />
+        <Button variant="ghost" size="icon" aria-label="Sign out" onClick={handleSignOut}>
+          <LogOut className="h-4 w-4" />
+        </Button>
       </div>
     </header>
   );
