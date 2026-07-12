@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { Plus, Trash2, Search } from "lucide-react";
+import { Plus, Trash2, Search, Camera } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -158,11 +158,18 @@ function FuelTab() {
             <Search className="h-4 w-4" />
           </Button>
         </div>
-        <Link href="/fuel-expenses/fuel/new">
-          <Button>
-            <Plus className="mr-1 h-4 w-4" /> Add Fuel Entry
-          </Button>
-        </Link>
+        <div className="flex gap-2">
+          <Link href="/fuel-expenses/ocr">
+            <Button variant="secondary">
+              <Camera className="mr-1 h-4 w-4" /> Scan Receipt
+            </Button>
+          </Link>
+          <Link href="/fuel-expenses/fuel/new">
+            <Button>
+              <Plus className="mr-1 h-4 w-4" /> Add Fuel Entry
+            </Button>
+          </Link>
+        </div>
       </div>
 
       <Table>
