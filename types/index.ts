@@ -15,16 +15,19 @@ export interface AppUser {
 
 export type VehicleStatus = "available" | "on_trip" | "in_shop" | "retired";
 
+export type VehicleType = "van" | "truck" | "bus" | "mini_truck" | "pickup" | "other";
+
 export interface Vehicle {
   id: string;
-  registrationNumber: string; // unique
+  registrationNumber: string;
   name: string;
-  type: string;
+  type: VehicleType;
   maxLoadCapacityKg: number;
   odometerKm: number;
   acquisitionCost: number;
   status: VehicleStatus;
-  region?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type DriverStatus = "available" | "on_trip" | "off_duty" | "suspended";
@@ -38,6 +41,8 @@ export interface Driver {
   contactNumber: string;
   safetyScore: number;
   status: DriverStatus;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type TripStatus = "draft" | "dispatched" | "completed" | "cancelled";
@@ -51,17 +56,24 @@ export interface Trip {
   cargoWeightKg: number;
   plannedDistanceKm: number;
   status: TripStatus;
+  startTime?: string;
+  endTime?: string;
   createdAt: string;
+  updatedAt: string;
 }
+
+export type MaintenanceStatus = "open" | "closed";
 
 export interface MaintenanceLog {
   id: string;
   vehicleId: string;
-  description: string;
+  maintenanceType: string;
+  description?: string;
+  maintenanceDate: string;
   cost: number;
-  isActive: boolean;
+  status: MaintenanceStatus;
   createdAt: string;
-  closedAt?: string;
+  updatedAt: string;
 }
 
 export interface FuelLog {
@@ -69,16 +81,25 @@ export interface FuelLog {
   vehicleId: string;
   liters: number;
   cost: number;
+  odometer: number;
   date: string;
+  fuelStation?: string;
+  remarks?: string;
+  createdAt: string;
+  updatedAt: string;
 }
+
+export type ExpenseCategory = "fuel" | "maintenance" | "toll" | "parking" | "other";
 
 export interface Expense {
   id: string;
   vehicleId: string;
-  category: "toll" | "maintenance" | "other";
+  category: ExpenseCategory;
   amount: number;
   date: string;
   notes?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface DashboardKpis {

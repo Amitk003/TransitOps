@@ -6,6 +6,7 @@ import {
   useEffect,
   useState,
   useCallback,
+  useRef,
   type ReactNode,
 } from "react";
 import { createClient } from "@/lib/supabase/client";
@@ -32,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     session: null,
     isLoading: true,
   });
-  const supabase = createClient();
+  const supabase = useRef(createClient()).current;
 
   const fetchProfile = useCallback(
     async (userId: string): Promise<AppUser | null> => {
