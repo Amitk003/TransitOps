@@ -10,8 +10,6 @@ import {
 } from "@/components/ui/table";
 import type { DashboardKpis, Vehicle } from "@/types";
 
-// Placeholder data — Phase 6 (Dashboard & Analytics) replaces this with
-// live Supabase queries via services/vehicles.service.ts etc.
 const kpis: DashboardKpis = {
   activeVehicles: 42,
   availableVehicles: 18,
@@ -68,7 +66,7 @@ export default function DashboardPage() {
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Fleet Dashboard</h1>
         <p className="text-sm text-muted-foreground">
-          Foundation build — data below is placeholder until later phases wire it up.
+          Overview of fleet operations and key metrics.
         </p>
       </div>
 
