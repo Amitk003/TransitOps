@@ -19,30 +19,30 @@ export type VehicleType = "van" | "truck" | "bus" | "mini_truck" | "pickup" | "o
 
 export interface Vehicle {
   id: string;
-  registrationNumber: string;
-  name: string;
-  type: VehicleType;
-  maxLoadCapacityKg: number;
-  odometerKm: number;
-  acquisitionCost: number;
+  registration_number: string;
+  vehicle_name: string;
+  vehicle_type: VehicleType;
+  max_load_capacity: number;
+  odometer: number;
+  acquisition_cost: number;
   status: VehicleStatus;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export type DriverStatus = "available" | "on_trip" | "off_duty" | "suspended";
 
 export interface Driver {
   id: string;
-  name: string;
-  licenseNumber: string;
-  licenseCategory: string;
-  licenseExpiryDate: string;
-  contactNumber: string;
-  safetyScore: number;
+  full_name: string;
+  license_number: string;
+  license_category: string;
+  license_expiry_date: string;
+  contact_number: string;
+  safety_score: number;
   status: DriverStatus;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export type TripStatus = "draft" | "dispatched" | "completed" | "cancelled";
@@ -51,55 +51,55 @@ export interface Trip {
   id: string;
   source: string;
   destination: string;
-  vehicleId: string;
-  driverId: string;
-  cargoWeightKg: number;
-  plannedDistanceKm: number;
+  vehicle_id: string;
+  driver_id: string;
+  cargo_weight: number;
+  planned_distance: number;
   status: TripStatus;
-  startTime?: string;
-  endTime?: string;
-  createdAt: string;
-  updatedAt: string;
+  start_time?: string;
+  end_time?: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export type MaintenanceStatus = "open" | "closed";
 
 export interface MaintenanceLog {
   id: string;
-  vehicleId: string;
-  maintenanceType: string;
+  vehicle_id: string;
+  maintenance_type: string;
   description?: string;
-  maintenanceDate: string;
+  maintenance_date: string;
   cost: number;
   status: MaintenanceStatus;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface FuelLog {
   id: string;
-  vehicleId: string;
+  vehicle_id: string;
   liters: number;
   cost: number;
   odometer: number;
-  date: string;
-  fuelStation?: string;
+  fuel_date: string;
+  fuel_station?: string;
   remarks?: string;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export type ExpenseCategory = "fuel" | "maintenance" | "toll" | "parking" | "other";
 
 export interface Expense {
   id: string;
-  vehicleId: string;
-  category: ExpenseCategory;
+  vehicle_id: string;
+  expense_type: ExpenseCategory;
   amount: number;
-  date: string;
+  expense_date: string;
   notes?: string;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface DashboardKpis {

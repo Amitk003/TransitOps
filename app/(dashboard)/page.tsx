@@ -23,33 +23,39 @@ const kpis: DashboardKpis = {
 const recentVehicles: Vehicle[] = [
   {
     id: "1",
-    registrationNumber: "GJ-01-AB-1234",
-    name: "Van-05",
-    type: "van",
-    maxLoadCapacityKg: 500,
-    odometerKm: 18234,
-    acquisitionCost: 1200000,
+    registration_number: "GJ-01-AB-1234",
+    vehicle_name: "Van-05",
+    vehicle_type: "van",
+    max_load_capacity: 500,
+    odometer: 18234,
+    acquisition_cost: 1200000,
     status: "available",
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "2",
-    registrationNumber: "GJ-01-CD-5678",
-    name: "Truck-11",
-    type: "truck",
-    maxLoadCapacityKg: 2000,
-    odometerKm: 54210,
-    acquisitionCost: 3400000,
+    registration_number: "GJ-01-CD-5678",
+    vehicle_name: "Truck-11",
+    vehicle_type: "truck",
+    max_load_capacity: 2000,
+    odometer: 54210,
+    acquisition_cost: 3400000,
     status: "on_trip",
+    created_at: "",
+    updated_at: "",
   },
   {
     id: "3",
-    registrationNumber: "GJ-01-EF-9012",
-    name: "Truck-04",
-    type: "truck",
-    maxLoadCapacityKg: 1500,
-    odometerKm: 88120,
-    acquisitionCost: 2900000,
+    registration_number: "GJ-01-EF-9012",
+    vehicle_name: "Truck-04",
+    vehicle_type: "truck",
+    max_load_capacity: 1500,
+    odometer: 88120,
+    acquisition_cost: 2900000,
     status: "in_shop",
+    created_at: "",
+    updated_at: "",
   },
 ];
 
@@ -114,10 +120,10 @@ export default function DashboardPage() {
           <TableBody>
             {recentVehicles.map((v) => (
               <TableRow key={v.id}>
-                <TableCell className="font-mono text-xs">{v.registrationNumber}</TableCell>
-                <TableCell>{v.name}</TableCell>
-                <TableCell>{v.type}</TableCell>
-                <TableCell className="tabular-nums">{v.odometerKm.toLocaleString()} km</TableCell>
+                <TableCell className="font-mono text-xs">{v.registration_number}</TableCell>
+                <TableCell>{v.vehicle_name}</TableCell>
+                <TableCell>{v.vehicle_type}</TableCell>
+                <TableCell className="tabular-nums">{v.odometer.toLocaleString()} km</TableCell>
                 <TableCell>
                   <Badge variant={statusVariant[v.status]}>{v.status.replace("_", " ")}</Badge>
                 </TableCell>
