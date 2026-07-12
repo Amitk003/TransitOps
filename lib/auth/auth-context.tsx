@@ -26,6 +26,16 @@ interface AuthContextValue extends AuthState {
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+const AUTH_LOAD_TIMEOUT_MS = 8000;
+
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error("Authentication request timed out.")), timeoutMs)
+    ),
+  ]);
+}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>({
@@ -48,34 +58,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const refreshProfile = useCallback(async () => {
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
-    if (session?.user) {
-      const profile = await fetchProfile(session.user.id);
-      setState({ user: profile, session, isLoading: false });
-    } else {
+    try {
+      const {
+        data: { session },
+      } = await withTimeout(supabase.auth.getSession(), AUTH_LOAD_TIMEOUT_MS);
+      if (session?.user) {
+        const profile = await withTimeout(fetchProfile(session.user.id), AUTH_LOAD_TIMEOUT_MS);
+        setState({ user: profile, session, isLoading: false });
+      } else {
+        setState({ user: null, session: null, isLoading: false });
+      }
+    } catch (error) {
+      console.error("Failed to refresh auth profile", error);
       setState({ user: null, session: null, isLoading: false });
     }
   }, [supabase, fetchProfile]);
 
   useEffect(() => {
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (session?.user) {
-        const profile = await fetchProfile(session.user.id);
-        setState({ user: profile, session, isLoading: false });
-      } else {
+    withTimeout(supabase.auth.getSession(), AUTH_LOAD_TIMEOUT_MS)
+      .then(async ({ data: { session } }) => {
+        if (session?.user) {
+          const profile = await withTimeout(fetchProfile(session.user.id), AUTH_LOAD_TIMEOUT_MS);
+          setState({ user: profile, session, isLoading: false });
+        } else {
+          setState({ user: null, session: null, isLoading: false });
+        }
+      })
+      .catch((error) => {
+        console.error("Failed to load auth session", error);
         setState({ user: null, session: null, isLoading: false });
-      }
-    });
+      });
 
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        const profile = await fetchProfile(session.user.id);
-        setState({ user: profile, session, isLoading: false });
-      } else {
+      try {
+        if (session?.user) {
+          const profile = await withTimeout(fetchProfile(session.user.id), AUTH_LOAD_TIMEOUT_MS);
+          setState({ user: profile, session, isLoading: false });
+        } else {
+          setState({ user: null, session: null, isLoading: false });
+        }
+      } catch (error) {
+        console.error("Failed to update auth state", error);
         setState({ user: null, session: null, isLoading: false });
       }
     });

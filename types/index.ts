@@ -108,6 +108,6 @@ export interface DashboardKpis {
   vehiclesInMaintenance: number;
   activeTrips: number;
   pendingTrips: number;
-  driversOnDuty: number;
+  activeDrivers: number;
   fleetUtilizationPct: number;
 }
