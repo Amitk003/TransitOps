@@ -5,13 +5,7 @@ import { Bell, LogOut } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/lib/auth/auth-context";
-
-const roleLabels: Record<string, string> = {
-  fleet_manager: "Fleet Manager",
-  driver: "Driver",
-  safety_officer: "Safety Officer",
-  financial_analyst: "Financial Analyst",
-};
+import { roleLabels } from "@/lib/auth/roles";
 
 export function Navbar() {
   const { user, signOut } = useAuth();
