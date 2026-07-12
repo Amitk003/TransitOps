@@ -12,10 +12,16 @@ import {
   BarChart3,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useRole } from "@/lib/auth/auth-context";
+import { canAccessRoute } from "@/lib/auth/roles";
 
-// One entry per top-level module from the PRD's functional requirements.
-// Later phases wire real routes under app/(dashboard)/...
-const navItems = [
+interface NavItem {
+  href: string;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const allNavItems: NavItem[] = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/vehicles", label: "Vehicle Registry", icon: Truck },
   { href: "/drivers", label: "Drivers", icon: Users },
@@ -27,6 +33,12 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const role = useRole();
+
+  const visibleItems = allNavItems.filter((item) => {
+    if (item.href === "/") return true; // dashboard is for everyone
+    return canAccessRoute(role, item.href);
+  });
 
   return (
     <aside className="hidden w-64 shrink-0 border-r border-border bg-card md:flex md:flex-col">
@@ -38,7 +50,7 @@ export function Sidebar() {
       </div>
 
       <nav className="flex-1 space-y-1 p-3">
-        {navItems.map(({ href, label, icon: Icon }) => {
+        {visibleItems.map(({ href, label, icon: Icon }) => {
           const active = pathname === href;
           return (
             <Link
