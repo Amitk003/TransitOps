@@ -11,6 +11,7 @@ import {
   Fuel,
   BarChart3,
   MapPin,
+  Mic,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useRole } from "@/lib/auth/auth-context";
@@ -25,6 +26,7 @@ interface NavItem {
 const allNavItems: NavItem[] = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
   { href: "/fleet", label: "Live Fleet", icon: MapPin },
+  { href: "/dispatch", label: "Voice Dispatch", icon: Mic },
   { href: "/vehicles", label: "Vehicle Registry", icon: Truck },
   { href: "/drivers", label: "Drivers", icon: Users },
   { href: "/trips", label: "Trips", icon: Route },

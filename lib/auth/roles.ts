@@ -19,7 +19,8 @@ export type Permission =
   | "view_fuel"
   | "manage_fuel"
   | "view_reports"
-  | "view_fleet";
+  | "view_fleet"
+  | "use_dispatch";
 
 const rolePermissions: Record<UserRole, Permission[]> = {
   fleet_manager: [
@@ -35,6 +36,7 @@ const rolePermissions: Record<UserRole, Permission[]> = {
     "manage_fuel",
     "view_reports",
     "view_fleet",
+    "use_dispatch",
   ],
   driver: ["view_trips", "manage_trips", "view_fuel", "manage_fuel"],
   safety_officer: [
@@ -73,6 +75,7 @@ export function canAccessRoute(
     "/drivers": "view_drivers",
     "/trips": "view_trips",
     "/fleet": "view_fleet",
+    "/dispatch": "use_dispatch",
     "/maintenance": "view_maintenance",
     "/fuel-expenses": "view_fuel",
     "/reports": "view_reports",
