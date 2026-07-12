@@ -8,9 +8,9 @@ export type UserRole = "fleet_manager" | "driver" | "safety_officer" | "financia
 export interface AppUser {
   id: string;
   email: string;
-  fullName: string;
+  full_name: string;
   role: UserRole;
-  createdAt: string;
+  created_at: string;
 }
 
 export type VehicleStatus = "available" | "on_trip" | "in_shop" | "retired";
