@@ -181,7 +181,7 @@ export function OcrFuelForm() {
                 </div>
                 {parsed.amount && (
                   <Badge variant="secondary" className="mt-2">
-                    Confidence: low (hackathon demo)
+                    Confidence: low (demo mode)
                   </Badge>
                 )}
               </CardContent>

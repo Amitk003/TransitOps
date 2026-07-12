@@ -1,42 +1,33 @@
-# TransitOps — Fleet Operations Platform
+# TransitOps
 
-Smart transport operations platform with vehicle, driver, trip, maintenance, fuel, and expense management.
+A complete transport operations platform for managing your fleet. Track vehicles, drivers, trips, maintenance, fuel, and expenses all in one place.
 
-## Stack
+## What TransitOps does
 
-- **Next.js 14** (App Router) + TypeScript
-- **Tailwind CSS** with semantic HSL design tokens (dark theme)
-- **Supabase** Auth + PostgreSQL
-- **@supabase/ssr** for server/browser clients
-- **next-themes** for dark mode
-- **Recharts** for dashboard charts
+TransitOps helps transport companies run their daily operations more smoothly. Instead of using spreadsheets or paper logs, you get a unified system where you can:
 
-## Project Structure
+- See the live status of your entire fleet on a map
+- Track every trip from dispatch to completion
+- Manage vehicle maintenance schedules
+- Log fuel purchases and other expenses
+- View reports and analytics to understand costs
+- Use voice commands to create trips hands-free
+- Scan fuel receipts with your phone camera
+
+The system works on desktop and mobile, so you can use it in the office or on the go.
+
+## Quick Start
 
 ```
-app/
-  (auth)/login/     # Login page
-  (dashboard)/      # Dashboard, Vehicles, Drivers, Trips
-components/
-  ui/               # Button, Card, Table, Input, Dialog, Badge
-  layout/           # Sidebar, Navbar, AppShell, RouteGuard
-  dashboard/        # KPI cards, charts (Phase 6)
-lib/
-  supabase/         # Browser + server Supabase clients
-  auth/             # AuthContext, roles/permissions
-  services/         # All data-access services
-  utils.ts          # cn(), formatDate(), formatCurrency()
-hooks/              # use-dashboard-data (Phase 6)
-types/              # Domain types (snake_case matching DB)
-supabase/
-  migrations/       # 001-014: schema, enums, tables, RLS, grants
-```
-
-## Getting Started
-
-```bash
+git clone <repo-url>
+cd TransitOps
 npm install
-cp .env.example .env.local   # Fill in Supabase project URL + anon key
+cp .env.example .env.local
+```
+
+Fill in your Supabase project URL and anon key in .env.local, then:
+
+```
 npm run dev
 ```
 
@@ -44,55 +35,96 @@ Open http://localhost:3000
 
 ## Test Accounts
 
+These accounts are already set up in the database:
+
 | Email | Password | Role |
 |---|---|---|
-| manager@transitops.com | Test123! | fleet_manager |
-| driver@transitops.com | Test123! | driver |
-| safety@transitops.com | Test123! | safety_officer |
-| finance@transitops.com | Test123! | financial_analyst |
+| manager@transitops.com | Test123! | Fleet Manager (full access) |
+| driver@transitops.com | Test123! | Driver (trips and fuel) |
+| safety@transitops.com | Test123! | Safety Officer (vehicles, drivers, maintenance) |
+| finance@transitops.com | Test123! | Financial Analyst (read-only reports) |
 
-## Features Built
+## Features at a Glance
 
-### Phase 1 — Foundation
-Next.js project, Tailwind, ESLint/Prettier, folder architecture, Supabase clients, layout (sidebar + navbar), UI components (Button, Card, Table, Input, Dialog, Badge), dark mode.
+**Dashboard** -- Live KPIs and charts showing fleet utilization, trip stats, expense breakdown, and maintenance costs. Auto-refreshes with realtime data.
 
-### Phase 2 — Authentication
-Supabase Auth with email/password, login page, protected middleware, session persistence, user_profiles table with role enum, role-based sidebar filtering, RouteGuard.
+**Live Fleet Tracking** -- Interactive map showing vehicle locations and active trip routes. Updates in real time as vehicles move.
 
-### Phase 3 — Database Schema
-14 migrations covering: enums (vehicle_status, driver_status, trip_status, maintenance_status, expense_type, vehicle_type), tables (vehicles, drivers, trips, maintenance_logs, fuel_logs, expenses, user_profiles), foreign keys, indexes, seed data, RLS policies, role grants.
+**Voice Dispatch** -- Click the mic button and say something like "Dispatch Ahmed in truck 42 from the main warehouse to depot 5." The system understands the command and creates the trip automatically.
 
-### Phase 4 — CRUD Pages
-Vehicle and Driver management with create/edit/list/delete, search/filter/pagination, inline status changes, license expiry indicators.
+**OCR Fuel Scanning** -- Take a photo of a fuel receipt. The system reads the text, pulls out the amount, liters, and date, and fills in the fuel log form for you.
 
-### Phase 5 — Trips
-Trip management with create/list/detail pages, status workflow (draft/ dispatched/ completed/ cancelled), vehicle/driver validation, action buttons.
+**Vehicle Management** -- Add, edit, and search vehicles. Filter by type or status. See vehicle utilization reports.
 
-### Phase 6 — Dashboard & Analytics
-Live dashboard with 7 KPI cards and 4 charts (fleet utilization, expense breakdown, maintenance cost, trip stats). Realtime updates via Supabase subscriptions. All data fetched live from the database.
+**Driver Management** -- Manage driver records, license information, and safety scores. Filter by availability status.
 
-### UI Theme
-Dark navy enterprise theme (#0B1220 bg, #111827 cards, #263042 borders, #94A3B8 secondary text, white headings). Sidebar with yellow accent logo, role-filtered navigation, active state (white bg + black text).
+**Trip Management** -- Create trips, track them through draft, dispatched, completed, and cancelled stages. The system validates that vehicles and drivers are available before dispatching.
+
+**Maintenance Management** -- Log maintenance work, track costs, and switch records between open and closed status.
+
+**Fuel and Expenses** -- Separate tabs for fuel logs and other expenses. Each with search, filter, and pagination.
+
+**Reports and Analytics** -- Date-range filtered reports with KPI summaries, trip trend charts, cost breakdowns, vehicle cost analysis, and driver performance tables.
+
+**Role-Based Access** -- Four roles with different permissions. Fleet managers see everything. Drivers only see their trips and fuel. The sidebar adjusts automatically based on your role.
+
+## Tech Stack
+
+- Next.js 14 (App Router) with TypeScript
+- Tailwind CSS with dark theme
+- Supabase for authentication and database
+- PostgreSQL with Row Level Security
+- React Leaflet for maps
+- Recharts for charts
+- Web Speech API for voice commands
+- Tesseract.js for receipt OCR
+- Sonner for toast notifications
 
 ## Database
 
-All migrations are in `supabase/migrations/` and are idempotent. Apply via:
+All database migrations are in the `supabase/migrations/` folder. Each migration is idempotent (safe to run multiple times).
 
-```bash
-supabase link --project-ref <your-ref>
+To apply migrations:
+
+```
+supabase link --project-ref <your-project-ref>
 supabase db push
 ```
 
-## Supabase Realtime (for live dashboard)
+For the live dashboard to auto-refresh, go to Supabase Dashboard > Database > Replication and enable replication for vehicles, drivers, trips, maintenance_logs, fuel_logs, and expenses.
 
-1. Go to **Supabase Dashboard → Database → Replication**
-2. Enable replication for: `vehicles`, `drivers`, `trips`, `maintenance_logs`, `fuel_logs`, `expenses`
-3. Without this, the dashboard still loads fine but won't auto-refresh
+## Project Structure
 
-## Key Conventions
+```
+app/
+  (auth)/login/       Login page
+  (dashboard)/        Main app pages (dashboard, fleet, dispatch, vehicles, drivers, trips, maintenance, fuel-expenses, reports)
+components/
+  ui/                 Reusable UI components (Button, Card, Table, Input, Dialog, Badge, Skeleton, ErrorBoundary, EmptyState)
+  layout/             Sidebar, Navbar, AppShell, RouteGuard, NavItems, MobileSidebar
+  dashboard/          Dashboard KPI cards and charts
+  fleet/              Fleet map component
+  voice/              Voice dispatch component
+  fuel/               Fuel forms (manual and OCR)
+  maintenance/        Maintenance form
+  expenses/           Expense form
+lib/
+  supabase/           Supabase client setup
+  auth/               Auth context, role-based access control
+  services/           Data access layer (one service per entity)
+  utils.ts            Helper functions
+hooks/                Custom React hooks
+types/                TypeScript type definitions
+supabase/migrations/  Database migrations (017 total)
+```
 
-- Import shared UI from `@/components/ui/*`
-- All colors use semantic Tailwind tokens, not raw hex
-- Database queries go in `lib/services/`, not components
-- Types use snake_case to match DB column names
-- Run `npm run lint` before committing
+## Performance
+
+- All pages use client-side data fetching with proper loading states
+- Tables support search, filter, and pagination
+- Static pages are pre-rendered where possible
+- Bundle size is optimized with dynamic imports for heavy libraries (Leaflet, Tesseract)
+
+## Support
+
+For issues or feature requests, please open an issue on the repository.

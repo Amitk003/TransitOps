@@ -1,21 +1,23 @@
 # Test Accounts
 
-All accounts use password: `Test123!`
+These accounts are already in the database. Use them to log in and test different roles.
 
-| Email | Role | Sidebar Access |
+All accounts use the same password: `Test123!`
+
+| Email | Role | What They Can See |
 |---|---|---|
-| manager@transitops.com | fleet_manager | All items |
-| driver@transitops.com | driver | Trips, Fuel & Expenses |
-| safety@transitops.com | safety_officer | Vehicles, Drivers, Maintenance |
-| finance@transitops.com | financial_analyst | Vehicles, Drivers, Maintenance, Fuel & Expenses, Reports |
+| manager@transitops.com | Fleet Manager | Everything |
+| driver@transitops.com | Driver | Trips, Fuel and Expenses |
+| safety@transitops.com | Safety Officer | Vehicles, Drivers, Maintenance |
+| finance@transitops.com | Financial Analyst | Vehicles, Drivers, Maintenance, Fuel and Expenses, Reports |
 
-## Creating New Users
+To create additional users, use the Supabase dashboard:
 
-```bash
-# Using Supabase CLI with service_role key
-supabase db query "SELECT * FROM auth.users;"
+1. Go to Authentication > Users
+2. Click "Add User" and enter email/password
+3. Then insert a row into user_profiles:
 
-# Insert directly into user_profiles (must reference existing auth.users id)
+```sql
 INSERT INTO user_profiles (id, email, full_name, role)
-VALUES ('<auth-user-id>', 'new@example.com', 'Name', 'fleet_manager');
+VALUES ('auth-user-uuid', 'email@example.com', 'Full Name', 'fleet_manager');
 ```
