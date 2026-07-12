@@ -24,6 +24,7 @@ import {
   DialogCloseButton,
 } from "@/components/ui/dialog";
 import { getMaintenanceLogs, deleteMaintenanceLog } from "@/lib/services/maintenance.service";
+import { formatCurrency } from "@/lib/utils";
 import type { MaintenanceLog } from "@/types";
 
 const maintenanceTypes = ["", "engine", "transmission", "brakes", "tires", "electrical", "body", "inspection", "other"];
@@ -186,7 +187,7 @@ export default function MaintenancePage() {
                 <TableCell className="capitalize">{l.maintenance_type}</TableCell>
                 <TableCell className="max-w-xs truncate">{l.description || "-"}</TableCell>
                 <TableCell className="tabular-nums">{l.maintenance_date}</TableCell>
-                <TableCell className="tabular-nums">${Number(l.cost).toLocaleString()}</TableCell>
+                <TableCell className="tabular-nums">{formatCurrency(l.cost)}</TableCell>
                 <TableCell>
                   <Badge variant={statusVariant[l.status] || "outline"}>
                     {l.status}

@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/dialog";
 import { getFuelLogs, deleteFuelLog } from "@/lib/services/fuel.service";
 import { getExpenses, deleteExpense } from "@/lib/services/expenses.service";
+import { formatCurrency } from "@/lib/utils";
 import type { FuelLog, Expense } from "@/types";
 
 type Tab = "fuel" | "expenses";
@@ -203,7 +204,7 @@ function FuelTab() {
                 <TableCell className="font-mono text-xs">{l.vehicle_id.slice(0, 8)}...</TableCell>
                 <TableCell className="tabular-nums">{l.fuel_date}</TableCell>
                 <TableCell className="tabular-nums">{Number(l.liters).toLocaleString()}</TableCell>
-                <TableCell className="tabular-nums">${Number(l.cost).toLocaleString()}</TableCell>
+                <TableCell className="tabular-nums">{formatCurrency(l.cost)}</TableCell>
                 <TableCell className="tabular-nums">{Number(l.odometer).toLocaleString()} km</TableCell>
                 <TableCell>{l.fuel_station || "-"}</TableCell>
                 <TableCell className="text-right">
@@ -404,7 +405,7 @@ function ExpensesTab() {
               <TableRow key={e.id}>
                 <TableCell className="font-mono text-xs">{e.vehicle_id.slice(0, 8)}...</TableCell>
                 <TableCell className="capitalize">{e.expense_type}</TableCell>
-                <TableCell className="tabular-nums">${Number(e.amount).toLocaleString()}</TableCell>
+                <TableCell className="tabular-nums">{formatCurrency(e.amount)}</TableCell>
                 <TableCell className="tabular-nums">{e.expense_date}</TableCell>
                 <TableCell className="max-w-xs truncate">{e.notes || "-"}</TableCell>
                 <TableCell className="text-right">

@@ -226,7 +226,7 @@ export function OcrFuelForm() {
               />
 
               <Input
-                label="Cost ($)"
+                label="Cost (Rs)"
                 type="number"
                 step="0.01"
                 value={cost || ""}
